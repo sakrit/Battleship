@@ -72,7 +72,7 @@ recon_ship   = ship_place(2, get_pos_delim())
 dest_ship    = ship_place(3, get_pos_delim())
 submarine    = ship_place(3, get_pos_delim())
 battle_ship  = ship_place(4, get_pos_delim())
-carrier_ship = ship_place(6, get_pos_delim())
+carrier_ship = ship_place(5, get_pos_delim())
 
 hit_count = 0
 recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
