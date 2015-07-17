@@ -138,7 +138,6 @@ def play_battleship():
             print "MISS!"
             board[guess_pos[0]][guess_pos[1]] = 'M'
 
-        print hit_count
         print_board(board)
 
     print "Congratulations! You sunk the fleet!"
