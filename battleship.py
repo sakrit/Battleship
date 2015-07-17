@@ -1,6 +1,9 @@
 # script for playing battleship
 from random import randint
 
+##
+## Create the boards as global variables
+##
 board = []
 res_board = []
 
@@ -12,9 +15,6 @@ def print_board(board):
     print ""
     for row in board:
         print " ".join(row)
-
-print "Let's play Battleship!"
-print_board(board)
 
 def get_pos_delim():
     if randint(0, 1) == 0:
@@ -68,70 +68,101 @@ def ship_place(length, pos):
     else:
         return ship_place(length, pos)
 
-recon_ship   = ship_place(2, get_pos_delim())
-dest_ship    = ship_place(3, get_pos_delim())
-submarine    = ship_place(3, get_pos_delim())
-battle_ship  = ship_place(4, get_pos_delim())
-carrier_ship = ship_place(5, get_pos_delim())
+def play_battleship():
 
-hit_count = 0
-recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
-while hit_count < 18:
-    guess_pos = [int(raw_input("Guess Row: ")), int(raw_input("Guess Column: "))]
-    if board[guess_pos[0]][guess_pos[1]] == 'H' or board[guess_pos[0]][guess_pos[1]] == 'M':
-        print "You guessed that position already!"
-        continue
-    elif guess_pos in recon_ship:
-        print "HIT! You hit the reconnasance ship!"
-        board[guess_pos[0]][guess_pos[1]] = 'H'
-        recon_count += 1
-        hit_count += 1
-        if recon_count == len(recon_ship):
-            print "The reconnasance ship has sunk"
-        else:
-            print "There are %s hits required to sink the reconassance ship" % (len(recon_ship) - recon_count)
-    elif guess_pos in dest_ship:
-        print dest_ship
-        print "HIT! You hit the destroyer ship!"
-        board[guess_pos[0]][guess_pos[1]] = 'H'
-        dest_count += 1
-        hit_count += 1
-        if dest_count == len(dest_ship):
-            print "The destroyer ship has sunk"
-        else:
-            print "There are %s hits required to sink the destroyer ship" % (len(dest_ship) - dest_count)
-    elif guess_pos in submarine:
-        print "HIT! You hit the sumbraine!"
-        board[guess_pos[0]][guess_pos[1]] = 'H'
-        sub_count += 1
-        hit_count += 1
-        if sub_count == len(submarine):
-            print "The submarine has sunk"
-        else:
-            print "There are %s hits required to sink the submarine" % (len(submarine) - sub_count)
-    elif guess_pos in battle_ship:
-        print battle_ship
-        print "HIT! You hit the battle ship!"
-        board[guess_pos[0]][guess_pos[1]] = 'H'
-        batt_count += 1
-        hit_count += 1
-        if batt_count == len(battle_ship):
-            print "The battle ship has sunk"
-        else:
-            print "There are %s hits required to sink the battle ship" % (len(battle_ship) - batt_count)
-    elif guess_pos in carrier_ship:
-        print "HIT! You hit the Aircraft Carrier"
-        board[guess_pos[0]][guess_pos[1]] = 'H'
-        carr_count += 1
-        hit_count += 1
-        if carr_count == len(carrier_ship):
-            print "The Carrier has sunk"
-        else:
-            print "There are %s hits required to sink the carrier" % (len(carrier_ship) - carr_count)
-    else:
-        print "MISS!"
-        board[guess_pos[0]][guess_pos[1]] = 'M'
+    recon_ship   = ship_place(2, get_pos_delim())
+    dest_ship    = ship_place(3, get_pos_delim())
+    submarine    = ship_place(3, get_pos_delim())
+    battle_ship  = ship_place(4, get_pos_delim())
+    carrier_ship = ship_place(5, get_pos_delim())
 
-    print_board(board)
+    hit_count = 0
+    recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
+    while hit_count < 17:
+        guess_pos = [int(raw_input("Guess Row: ")), int(raw_input("Guess Column: "))]
+        if guess_pos[0] > len(board) or guess_pos[0] < 0:
+            print "That position is outside the board"
+            continue
+        elif guess_pos[1] > len(board) or guess_pos[1] < 0:
+            print "That position is outside the board"
+            continue
+        elif board[guess_pos[0]][guess_pos[1]] == 'H' or board[guess_pos[0]][guess_pos[1]] == 'M':
+            print "You guessed that position already!"
+            continue
+        elif guess_pos in recon_ship:
+            print "HIT! You hit the reconnasance ship!"
+            board[guess_pos[0]][guess_pos[1]] = 'H'
+            recon_count += 1
+            hit_count += 1
+            if recon_count == len(recon_ship):
+                print "The reconnasance ship has sunk"
+            else:
+                print "There are %s hits required to sink the reconassance ship" % (len(recon_ship) - recon_count)
+        elif guess_pos in dest_ship:
+            print "HIT! You hit the destroyer ship!"
+            board[guess_pos[0]][guess_pos[1]] = 'H'
+            dest_count += 1
+            hit_count += 1
+            if dest_count == len(dest_ship):
+                print "The destroyer ship has sunk"
+            else:
+                print "There are %s hits required to sink the destroyer ship" % (len(dest_ship) - dest_count)
+        elif guess_pos in submarine:
+            print "HIT! You hit the sumbraine!"
+            board[guess_pos[0]][guess_pos[1]] = 'H'
+            sub_count += 1
+            hit_count += 1
+            if sub_count == len(submarine):
+                print "The submarine has sunk"
+            else:
+                print "There are %s hits required to sink the submarine" % (len(submarine) - sub_count)
+        elif guess_pos in battle_ship:
+            print "HIT! You hit the battle ship!"
+            board[guess_pos[0]][guess_pos[1]] = 'H'
+            batt_count += 1
+            hit_count += 1
+            if batt_count == len(battle_ship):
+                print "The battle ship has sunk"
+            else:
+                print "There are %s hits required to sink the battle ship" % (len(battle_ship) - batt_count)
+        elif guess_pos in carrier_ship:
+            print "HIT! You hit the Aircraft Carrier"
+            board[guess_pos[0]][guess_pos[1]] = 'H'
+            carr_count += 1
+            hit_count += 1
+            if carr_count == len(carrier_ship):
+                print "The Carrier has sunk"
+            else:
+                print "There are %s hits required to sink the carrier" % (len(carrier_ship) - carr_count)
+        else:
+            print "MISS!"
+            board[guess_pos[0]][guess_pos[1]] = 'M'
 
-print "Congratulations! You sunk the fleet!"
+        print hit_count
+        print_board(board)
+
+    print "Congratulations! You sunk the fleet!"
+
+
+def main():
+
+    '''
+    Plays the game of battleship
+    '''
+
+    play_game = True
+    l_yes = ['y', 'Y', 'yes', 'Yes', 'YES']
+    while play_game == True:
+        print "Let's play Battleship!"
+        print_board(board)
+        play_battleship()
+        if raw_input('Would you like to play again? (y/n) ') in l_yes:
+            play_game = True
+        else:
+            print 'Thanks for playing!'
+            play_game = False
+
+
+if __name__ == '__main__':
+    main()
+
