@@ -13,8 +13,10 @@ for x in range(10):
 
 def print_board(board):
     print ""
-    for row in board:
-        print " ".join(row)
+    print "A B C D E F G H I J |  "
+    print "--------------------|--"
+    for i, row in enumerate(board):
+        print " ".join(row) + ' |' + str(i + 1)
 
 def clear_board():
     global board
@@ -79,7 +81,7 @@ def ship_place(length, pos):
 def hit_ship(guess_pos, hit_count, ship_name, ship_len, ship_count):
 
     print "HIT! You hit the " + ship_name
-    board[guess_pos[0]][guess_pos[1]] = 'H'
+    board[guess_pos[1]][guess_pos[0]] = 'H'
     hit_count += 1
     ship_count += 1
 
@@ -92,16 +94,34 @@ def hit_ship(guess_pos, hit_count, ship_name, ship_len, ship_count):
 
 def is_good_guess(guess):
     if guess[0] > len(board) or guess[0] < 0:
-        print 'That position is outside the board'
+        print 'That position is not valid'
         return False
     elif guess[1] > len(board) or guess[1] < 0:
-        print 'That position is outside the board'
+        print 'That position is not valid'
         return False
-    elif board[guess[0]][guess[1]] == 'H' or board[guess[0]][guess[1]] == 'M':
+    elif board[guess[1]][guess[0]] == 'H' or board[guess[1]][guess[0]] == 'M':
         print 'You guessed that position already!'
         return False
     else:
         return True
+
+def get_x_coord(x):
+    
+    d = {'A' : 0, 'B' : 1, 'C' : 2, 'D' : 3, 'E' : 4, 'F' : 5, 'G' : 6, 'H' : 7, 'I' : 8, 'J' : 9}
+    try:
+        return d[x]
+    except KeyError as e:
+        print 'KeyError:: %s not valid' % (e)
+        return -1
+
+def get_y_coord(y):
+
+    try:
+        int(y) - 1
+        return int(y) - 1
+    except ValueError as e:
+        print 'ValueError::', e
+        return -1
 
 def play_battleship():
 
@@ -113,23 +133,22 @@ def play_battleship():
 
     hit_count = 0
     recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
-    print_board(res_board)
     while hit_count < (len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)):
-        guess_pos = [int(raw_input("Guess Row: ")), int(raw_input("Guess Column: "))]
+        guess_pos = [get_x_coord(raw_input("Guess Column: ")), get_y_coord(raw_input("Guess Row: "))]
         if is_good_guess(guess_pos):
             if guess_pos in recon_ship:
                 hit_count, recon_count = hit_ship(guess_pos, hit_count, 'reconnasance ship', len(recon_ship),   recon_count)
             elif guess_pos in dest_ship:
                 hit_count, dest_count  = hit_ship(guess_pos, hit_count, 'destroyer ship',    len(dest_ship),    dest_count)
             elif guess_pos in submarine:
-                hit_count, sub_count   = hit_ship(guess_pos, hit_count, 'submarine',         len(submarin),     sub_count)
+                hit_count, sub_count   = hit_ship(guess_pos, hit_count, 'submarine',         len(submarine),     sub_count)
             elif guess_pos in battle_ship:
                 hit_count, batt_count  = hit_ship(guess_pos, hit_count, 'battle ship',       len(battle_ship),  batt_count)
             elif guess_pos in carrier_ship:
                 hit_count, carr_count  = hit_ship(guess_pos, hit_count, 'carrier',           len(carrier_ship), carr_count)
             else:
                 print "MISS!"
-                board[guess_pos[0]][guess_pos[1]] = 'M'
+                board[guess_pos[1]][guess_pos[0]] = 'M'
         else:
             continue
         print_board(board)
@@ -148,7 +167,6 @@ def play_again(char):
         else:
             print "Thanks for playing!"
             return False
-
 
 def main():
 
