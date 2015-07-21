@@ -90,6 +90,19 @@ def hit_ship(guess_pos, hit_count, ship_name, ship_len, ship_count):
 
     return hit_count, ship_count
 
+def is_good_guess(guess):
+    if guess[0] > len(board) or guess[0] < 0:
+        print 'That position is outside the board'
+        return False
+    elif guess[1] > len(board) or guess[1] < 0:
+        print 'That position is outside the board'
+        return False
+    elif board[guess[0]][guess[1]] == 'H' or board[guess[0]][guess[1]] == 'M':
+        print 'You guessed that position already!'
+        return False
+    else:
+        return True
+
 def play_battleship():
 
     recon_ship   = ship_place(2, get_pos_delim())
@@ -103,29 +116,22 @@ def play_battleship():
     print_board(res_board)
     while hit_count < (len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)):
         guess_pos = [int(raw_input("Guess Row: ")), int(raw_input("Guess Column: "))]
-        if guess_pos[0] > len(board) or guess_pos[0] < 0:
-            print "That position is outside the board"
-            continue
-        elif guess_pos[1] > len(board) or guess_pos[1] < 0:
-            print "That position is outside the board"
-            continue
-        elif board[guess_pos[0]][guess_pos[1]] == 'H' or board[guess_pos[0]][guess_pos[1]] == 'M':
-            print "You guessed that position already!"
-            continue
-        elif guess_pos in recon_ship:
-            hit_count, recon_count = hit_ship(guess_pos, hit_count, 'reconnasance ship', len(recon_ship),   recon_count)
-        elif guess_pos in dest_ship:
-            hit_count, dest_count  = hit_ship(guess_pos, hit_count, 'destroyer ship',    len(dest_ship),    dest_count)
-        elif guess_pos in submarine:
-            hit_count, sub_count   = hit_ship(guess_pos, hit_count, 'submarine',         len(submarin),     sub_count)
-        elif guess_pos in battle_ship:
-            hit_count, batt_count  = hit_ship(guess_pos, hit_count, 'battle ship',       len(battle_ship),  batt_count)
-        elif guess_pos in carrier_ship:
-            hit_count, carr_count  = hit_ship(guess_pos, hit_count, 'carrier',           len(carrier_ship), carr_count)
+        if is_good_guess(guess_pos):
+            if guess_pos in recon_ship:
+                hit_count, recon_count = hit_ship(guess_pos, hit_count, 'reconnasance ship', len(recon_ship),   recon_count)
+            elif guess_pos in dest_ship:
+                hit_count, dest_count  = hit_ship(guess_pos, hit_count, 'destroyer ship',    len(dest_ship),    dest_count)
+            elif guess_pos in submarine:
+                hit_count, sub_count   = hit_ship(guess_pos, hit_count, 'submarine',         len(submarin),     sub_count)
+            elif guess_pos in battle_ship:
+                hit_count, batt_count  = hit_ship(guess_pos, hit_count, 'battle ship',       len(battle_ship),  batt_count)
+            elif guess_pos in carrier_ship:
+                hit_count, carr_count  = hit_ship(guess_pos, hit_count, 'carrier',           len(carrier_ship), carr_count)
+            else:
+                print "MISS!"
+                board[guess_pos[0]][guess_pos[1]] = 'M'
         else:
-            print "MISS!"
-            board[guess_pos[0]][guess_pos[1]] = 'M'
-
+            continue
         print_board(board)
     else:
         print "Congratulations! You sunk the fleet!"
