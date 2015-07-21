@@ -16,6 +16,14 @@ def print_board(board):
     for row in board:
         print " ".join(row)
 
+def clear_board():
+    global board
+    global res_board
+    for i in xrange(len(board)):
+        for j in xrange(len(board[i])):
+            board[i][j] = "O"
+            res_board[i][j] = "O"
+
 def get_pos_delim():
     if randint(0, 1) == 0:
         return 'd'
@@ -139,8 +147,21 @@ def play_battleship():
             board[guess_pos[0]][guess_pos[1]] = 'M'
 
         print_board(board)
+    else:
+        print "Congratulations! You sunk the fleet!"
 
-    print "Congratulations! You sunk the fleet!"
+def play_again(char):
+    l_yes = ['y', 'Y', 'yes', 'Yes', 'YES']
+    l_no  = ['n', 'N', 'no', 'No', 'NO']
+    while char not in l_yes and char not in l_no:
+        print "I'm sorry, that is not a vaild option."
+        char = raw_input("Would you like to play again? (y/n) ")
+    else:
+        if char in l_yes:
+            return True
+        else:
+            print "Thanks for playing!"
+            return False
 
 
 def main():
@@ -150,17 +171,12 @@ def main():
     '''
 
     play_game = True
-    l_yes = ['y', 'Y', 'yes', 'Yes', 'YES']
     while play_game == True:
         print "Let's play Battleship!"
         print_board(board)
         play_battleship()
-        if raw_input('Would you like to play again? (y/n) ') in l_yes:
-            play_game = True
-        else:
-            print 'Thanks for playing!'
-            play_game = False
-
+        play_game = play_again(raw_input("Would you like to play again? (y/n) ")) 
+        clear_board()
 
 if __name__ == '__main__':
     main()
