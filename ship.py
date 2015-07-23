@@ -3,9 +3,9 @@
 ##
 from random import randint
 ## Custom Modules Below
-import board
+import board as b
 
-class ship(object):
+class Ship(object):
 
     '''
     Class will:
@@ -14,12 +14,13 @@ class ship(object):
         * Set out what happens when a ship is hit
     '''
 
-    def location(self, length, pos, board): # ship_place
+    def location(self, length, board): # ship_place
         
         '''
         Set the location of the ship on the board
         '''
 
+        pos = self.orientation()
         iVal_x = randint(0, len(board) - 1)
         iVal_y = randint(0, len(board) - 1)
         ship    = [[iVal_x, iVal_y]]
@@ -44,13 +45,13 @@ class ship(object):
                 for i in xrange(1, length):
                     ship.append([iVal_x + i, iVal_y])
 
-        if checkOverlap(ship, board):
+        if self.checkOverlap(ship, board):
             for location in ship:
-                board.place(location, board, 'S')
+                b.Board().place(location, board, 'S')
             
             return ship
         else:
-            return location(length, pos, board)
+            return self.location(length, board)
 
 
     def orientation(self): # get_pos_delim
@@ -72,7 +73,7 @@ class ship(object):
         '''
 
         for i in ship:
-            if board[i[0]][i[1]] == 'S':
+            if board[i[1]][i[0]] == 'S':
                 return False
             else:
                 continue
@@ -80,14 +81,14 @@ class ship(object):
         return True
     
 
-    def hit(self, pos, h_count, name, length, s_count): # hit_ship
+    def hit(self, pos, h_count, board, name, length, s_count): # hit_ship
 
         '''
         Called in the instance of a hit
         '''
 
-        print "HIT! You hit the " + ship_name
-        board.place(pos, board, 'H')
+        print "\nHIT! You hit the " + name
+        b.Board().place(pos, board, 'H')
         h_count += 1
         s_count += 1
 

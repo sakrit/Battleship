@@ -2,7 +2,7 @@
 ## Class for battleship board(s)
 ##
 
-class board(object):
+class Board(object):
 
     '''
     Class Will:
@@ -14,14 +14,16 @@ class board(object):
         * Convert the coordinates
     '''
 
-    def __init__(self, length): # global board setting
+    def get(self, length): # global board setting
 
-        self.board = []
+        board = []
         for x in range(length):
             board.append(["O"] * length)
 
+        return board
 
-    def print(self, board): # print_board
+
+    def display(self, board): # print_board
 
         '''
         Print the board to the terminal
@@ -30,7 +32,7 @@ class board(object):
         print 'A B C D E F G H I J |  '
         print '--------------------|--'
         for i, row in enumerate(board):
-            print ' '.join(row) + ' |' + str(i)
+            print ' '.join(row) + ' |' + str(i + 1)
 
 
     def clear(self, board): # clear_board
@@ -42,15 +44,14 @@ class board(object):
             for j in xrange(len(board[i])):
                 board[i][j] = "O"
 
-        return board
-
 
     def place(self, guess, board, delim): # place_ship
 
         '''
         Change the value of the coordinate of the board
         '''
-        board[guess[0]][guess[1]] = delim
+
+        board[guess[1]][guess[0]] = delim
 
         return board
 
