@@ -23,10 +23,8 @@ def playBattleship(iBoard):
     submarine    = iShip.location(3, pc_board)
     battle_ship  = iShip.location(4, pc_board)
     carrier_ship = iShip.location(5, pc_board)
-    
-    ## TEST ONLY -- REMOVE
-    iBoard.display(pc_board)
-
+   
+    ## Start the main game loop, looping until all the ships are sunk
     hit_count = 0
     recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
     n_hits    = len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)

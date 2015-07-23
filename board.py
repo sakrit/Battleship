@@ -45,15 +45,14 @@ class Board(object):
                 board[i][j] = "O"
 
 
-    def place(self, guess, board, delim): # place_ship
+    @staticmethod
+    def place(guess, board, delim): # place_ship
 
         '''
         Change the value of the coordinate of the board
         '''
 
         board[guess[1]][guess[0]] = delim
-
-        return board
 
 
     def legalGuess(self, guess, board): # is_good_guess
