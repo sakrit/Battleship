@@ -117,7 +117,6 @@ def get_x_coord(x):
 def get_y_coord(y):
 
     try:
-        int(y) - 1
         return int(y) - 1
     except ValueError as e:
         print 'ValueError::', e
