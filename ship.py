@@ -47,7 +47,7 @@ class Ship(object):
 
         if self.checkOverlap(ship, board):
             for location in ship:
-                b.Board().place(location, board, 'S')
+                b.Board.place(location, board, 'S')
             
             return ship
         else:
@@ -88,7 +88,7 @@ class Ship(object):
         '''
 
         print "\nHIT! You hit the " + name
-        b.Board().place(pos, board, 'H')
+        b.Board.place(pos, board, 'H')
         h_count += 1
         s_count += 1
 
