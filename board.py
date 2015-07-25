@@ -53,6 +53,8 @@ class Board(object):
         '''
 
         board[guess[1]][guess[0]] = delim
+        
+        return board
 
 
     def legalGuess(self, guess, board): # is_good_guess
@@ -66,10 +68,11 @@ class Board(object):
         elif guess[1] > len(board) or guess[1] < 0:
             print 'That position is invalid, try again'
             return False
-        elif board[guess[0]][guess[1]] == 'H' or board[guess[0]][guess[1]] == 'M':
+        elif board[guess[1]][guess[0]] == 'H' or board[guess[1]][guess[0]] == 'M':
             print 'You have guessed that position already! Try again'
             return False
         else:
+            print 'here'
             return True
 
 

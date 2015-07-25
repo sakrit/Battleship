@@ -88,7 +88,7 @@ class Ship(object):
         '''
 
         print "\nHIT! You hit the " + name
-        b.Board.place(pos, board, 'H')
+        board = b.Board.place(pos, board, 'H')
         h_count += 1
         s_count += 1
 
