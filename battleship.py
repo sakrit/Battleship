@@ -1,5 +1,6 @@
 # script for playing battleship
 
+import time
 ## Custom Modules Below!
 import board
 import ship
@@ -30,7 +31,7 @@ def playBattleship(iBoard):
     n_hits    = len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)
     while hit_count < n_hits:
         guess = [iBoard.convertX(raw_input("Guess Column: ")), iBoard.convertY(raw_input("Guess Row: "))]
-        if iBoard.legalGuess(guess, pc_board):
+        if iBoard.legalGuess(guess, main_board):
             if guess in recon_ship:
                 hit_count, recon_count = iShip.hit(guess, hit_count, main_board, 'reconnasance ship', 
                                                    len(recon_ship), recon_count)
@@ -72,7 +73,6 @@ def playAgain(char):
 
 
 def main():
-
     iBoard = board.Board()
     
     play_game = True
@@ -80,8 +80,15 @@ def main():
         ##
         ## Play Battleship
         ##
+        start = time.time()
         print "Let's play Battleship!"
         playBattleship(iBoard)
+        end   = time.time() - start
+        ##
+        ## Print out the basic statistics
+        ##
+        print "Well done! This game took %s minutes" % (end / 60)
+        print "The average time per hit was: %s seconds" % (end / 17)
         play_game = playAgain(raw_input('Would you like to play again? (y/n) '))
 
 
