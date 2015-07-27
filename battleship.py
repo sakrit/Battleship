@@ -87,8 +87,8 @@ def main():
         ##
         ## Print out the basic statistics
         ##
-        print "Well done! This game took %s minutes" % (end / 60)
-        print "The average time per hit was: %s seconds" % (end / 17)
+        print "Well done! This game took %s minutes %s seconds" % (int(end / 60), int(end % 60))
+        print "The average time per hit was: %s seconds" % (int(end / 17))
         play_game = playAgain(raw_input('Would you like to play again? (y/n) '))
 
 
