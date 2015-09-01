@@ -1,7 +1,7 @@
 ## script for playing battleship
 
 ## Standard Modules
-import time, sys
+import time
 ## Battleship Modules
 import board as B
 import ship
@@ -11,28 +11,23 @@ def playBattleship():
     '''
     Function controlling the gameplay
     '''
-    ## Create two boards, one the user sees and one for the pc boats
+    ## Create the board
     main_board = B.Board(10)
     main_board.display()
-    pc_board = B.Board(10)
 
     ## Get each of the ships and place them on the board
-    recon_ship   = ship.location(2, pc_board)
-    dest_ship    = ship.location(3, pc_board)
-    submarine    = ship.location(3, pc_board)
-    battle_ship  = ship.location(4, pc_board)
-    carrier_ship = ship.location(5, pc_board)
+    recon_ship   = ship.location(2)
+    dest_ship    = ship.location(3)
+    submarine    = ship.location(3)
+    battle_ship  = ship.location(4)
+    carrier_ship = ship.location(5)
 
     ## Start the main game loop, playing until all the ships are sunk
-    pc_board.display()
-
     hit_count = 0
     recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
     n_hits    = len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)
-    print n_hits
     while hit_count < n_hits:
-        print hit_count
-        guess = [pc_board.convertX(raw_input("Guess Column: ")), pc_board.convertY(raw_input("Guess Row: "))]
+        guess = [main_board.convertX(raw_input("Guess Column: ")), main_board.convertY(raw_input("Guess Row: "))]
         if main_board.legalGuess(guess):
             if guess in recon_ship:
                 hit_count, recon_count = ship.hit(guess, hit_count, main_board, 'reconnaissance ship', 
@@ -51,7 +46,7 @@ def playBattleship():
                                                   len(carrier_ship), carr_count)
             else:
                 print 'MISS!'
-                main_board.place(guess, 'M')
+                main_board.fill(guess, 'M')
         else:
             continue
 

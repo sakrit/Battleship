@@ -20,14 +20,7 @@ class Board(object):
         for x in xrange(length):
             self.board.append(["O"] * length)
 
-
-    def get(self, length): # global board setting
-
-        board = []
-        for x in range(length):
-            board.append(["O"] * length)
-
-        return board
+        self.length = length
 
 
     def display(self): # print_board
@@ -42,25 +35,24 @@ class Board(object):
             print ' '.join(row) + ' |' + str(i + 1)
 
 
-    def clear(self): # clear_board
-
-        '''
-        Return the board to a natural state
-        '''
-        for i in xrange(len(board)):
-            for j in xrange(len(board[i])):
-                board[i][j] = "O"
-
-
-    def place(self, guess, delim): # place_ship
+    def fill(self, guess, delim): # place_ship
 
         '''
         Change the value of the coordinate of the board
         '''
-
         self.board[guess[1]][guess[0]] = delim
         
         return self.board
+
+
+    def getLength(self):
+
+        return self.length
+
+    
+    def getFillValue(self, i1, i2):
+
+        return self.board[i1][i2]
 
 
     def legalGuess(self, guess): # is_good_guess
@@ -107,11 +99,3 @@ class Board(object):
             return -1
 
 
-    def getLength(self):
-
-        return len(self.board)
-
-    
-    def getFillValue(self, i1, i2):
-
-        return self.board[i1][i2]

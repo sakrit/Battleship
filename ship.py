@@ -3,17 +3,20 @@
 ##
 from random import randint
 ## Custom Modules Below
-import board as b
+import board as B
 
 
-def location(length, board): # ship_place
+def location(length): # ship_place
     
     '''
     Set the location of the ship on the board
     '''
-
-    pos = orientation()
+    
+    ## Create a board for the ships and get the length
+    board = B.Board(10)
     board_length =  board.getLength()
+
+    pos = getOrientation()
     iVal_x = randint(0, board_length - 1)
     iVal_y = randint(0, board_length - 1)
     ship    = [[iVal_x, iVal_y]]
@@ -40,14 +43,14 @@ def location(length, board): # ship_place
 
     if checkOverlap(ship, board):
         for loc in ship:
-            board.place(loc, 'S')
+            board.fill(loc, 'S')
         
         return ship
     else:
         return location(length, board)
 
 
-def orientation(): # get_pos_delim
+def getOrientation(): # get_pos_delim
     
     '''
     Set the orientation of the ship (up or accross)
@@ -81,13 +84,17 @@ def hit(pos, h_count, board, name, length, s_count): # hit_ship
     '''
 
     print "\nHIT! You hit the " + name
-    board.place(pos, 'H')
+    board.fill(pos, 'H')
     h_count += 1
     s_count += 1
 
     if s_count == length:
         print 'The %s has sunk' % (name)
+    elif length - s_count == 1:
+        print 'There is one hit required to sink the %s' % (name)
     else:
         print 'There are %s hits required to sink the %s' % (length - s_count, name)
 
     return h_count, s_count
+
+
