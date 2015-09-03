@@ -16,11 +16,11 @@ class Board(object):
 
     def __init__(self, length):
 
-        self.board = []
-        for x in xrange(length):
-            self.board.append(["O"] * length)
-
-        self.length = length
+        self.__board = []
+        self._length = length
+        ## Create the board
+        for x in xrange(self._length):
+            self.__board.append(["O"] * self._length)
 
 
     def display(self): # print_board
@@ -31,7 +31,7 @@ class Board(object):
         print ''
         print 'A B C D E F G H I J |  '
         print '--------------------|--'
-        for i, row in enumerate(self.board):
+        for i, row in enumerate(self.__board):
             print ' '.join(row) + ' |' + str(i + 1)
 
 
@@ -40,19 +40,19 @@ class Board(object):
         '''
         Change the value of the coordinate of the board
         '''
-        self.board[guess[1]][guess[0]] = delim
+        self.__board[guess[1]][guess[0]] = delim
         
-        return self.board
+        return self.__board
 
 
     def getLength(self):
 
-        return self.length
+        return self._length
 
     
     def getFillValue(self, i1, i2):
 
-        return self.board[i1][i2]
+        return self.__board[i1][i2]
 
 
     def legalGuess(self, guess): # is_good_guess
@@ -60,13 +60,13 @@ class Board(object):
         '''
         Check the guess is within the board
         '''
-        if guess[0] > len(self.board) or guess[0] < 0:
+        if guess[0] > len(self.__board) or guess[0] < 0:
             print 'That position is invalid, try again'
             return False
-        elif guess[1] > len(self.board) or guess[1] < 0:
+        elif guess[1] > len(self.__board) or guess[1] < 0:
             print 'That position is invalid, try again'
             return False
-        elif self.board[guess[1]][guess[0]] == 'H' or self.board[guess[1]][guess[0]] == 'M':
+        elif self.__board[guess[1]][guess[0]] == 'H' or self.__board[guess[1]][guess[0]] == 'M':
             print 'You have guessed that position already! Try again'
             return False
         else:
