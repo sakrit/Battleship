@@ -17,7 +17,7 @@ class Ship(object):
     def placeShip(self, board): # ship_place
         
         ## Create a board for the ships and get the length
-        board_length = board.getLength()
+        board_length = board._length
         pos = self.getOrientation()
         iVal_x = randint(0, board_length - 1)
         iVal_y = randint(0, board_length - 1)
