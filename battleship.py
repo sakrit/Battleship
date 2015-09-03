@@ -5,6 +5,7 @@ import time
 ## Battleship Modules
 import board as B
 import ship as S
+import stats
 
 def playBattleship():
 
@@ -22,6 +23,8 @@ def playBattleship():
     submarine = S.Ship(3, 'submarine', pc_board)
     battle    = S.Ship(4, 'battle ship', pc_board)
     carrier   = S.Ship(5, 'carrier', pc_board)
+    
+    pc_board.display()
 
     ## Start the main game loop, playing until all the ships are sunk
     hit_count = 0
@@ -51,6 +54,17 @@ def playBattleship():
         print 'Congratualtions! You sank the fleet'
 
 
+def endGame(start_time):
+
+    total_time = stats.totTime(start_time, time.time())
+    minutes = stats.minutes(total_time)
+    seconds = stats.seconds(total_time)
+    ## Print information about the game to the user
+    print "Well done! This game took %s minutes %s seconds" % (minutes, seconds)
+    print "The average time per hit was: %s seconds" % (int(total_time / 17))
+    stats.saveTime(total_time)
+
+
 def playAgain(char):
 
     yes = ['yes', 'y']
@@ -73,9 +87,7 @@ def main():
         start = time.time()
         print "Let's play battleship!"
         playBattleship()
-        end = time.time() - start
-        print "Well done! This game took %s minutes %s seconds" % (int(end / 60), int(end % 60))
-        print "The average time per hit was: %s seconds" % (int(end / 17))
+        endGame(start)
         play_game = playAgain(raw_input('Would you like to play again? (y/n) '))
 
 
