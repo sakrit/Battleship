@@ -14,16 +14,16 @@ class Board(object):
         * Convert the coordinates
     '''
 
-    def get(self, length): # global board setting
+    def __init__(self, length):
 
-        board = []
-        for x in range(length):
-            board.append(["O"] * length)
+        self.__board = []
+        self._length = length
+        ## Create the board
+        for x in xrange(self._length):
+            self.__board.append(["O"] * self._length)
 
-        return board
 
-
-    def display(self, board): # print_board
+    def display(self): # print_board
 
         '''
         Print the board to the terminal
@@ -31,48 +31,45 @@ class Board(object):
         print ''
         print 'A B C D E F G H I J |  '
         print '--------------------|--'
-        for i, row in enumerate(board):
+        for i, row in enumerate(self.__board):
             print ' '.join(row) + ' |' + str(i + 1)
 
 
-    def clear(self, board): # clear_board
-
-        '''
-        Return the board to a natural state
-        '''
-        for i in xrange(len(board)):
-            for j in xrange(len(board[i])):
-                board[i][j] = "O"
-
-
-    @staticmethod
-    def place(guess, board, delim): # place_ship
+    def fill(self, guess, delim): # place_ship
 
         '''
         Change the value of the coordinate of the board
         '''
-
-        board[guess[1]][guess[0]] = delim
+        self.__board[guess[1]][guess[0]] = delim
         
-        return board
+        return self.__board
 
 
-    def legalGuess(self, guess, board): # is_good_guess
+    def getLength(self):
+
+        return self._length
+
+    
+    def getFillValue(self, i1, i2):
+
+        return self.__board[i1][i2]
+
+
+    def legalGuess(self, guess): # is_good_guess
 
         '''
         Check the guess is within the board
         '''
-        if guess[0] > len(board) or guess[0] < 0:
+        if guess[0] > len(self.__board) or guess[0] < 0:
             print 'That position is invalid, try again'
             return False
-        elif guess[1] > len(board) or guess[1] < 0:
+        elif guess[1] > len(self.__board) or guess[1] < 0:
             print 'That position is invalid, try again'
             return False
-        elif board[guess[1]][guess[0]] == 'H' or board[guess[1]][guess[0]] == 'M':
+        elif self.__board[guess[1]][guess[0]] == 'H' or self.__board[guess[1]][guess[0]] == 'M':
             print 'You have guessed that position already! Try again'
             return False
         else:
-            print 'here'
             return True
 
 
@@ -100,3 +97,5 @@ class Board(object):
         except ValueError as e:
             print 'ValueError::', e
             return -1
+
+

@@ -1,66 +1,60 @@
-# script for playing battleship
+## script for playing battleship
 
+## Standard Modules
 import time
-## Custom Modules Below!
-import board
-import ship
+## Battleship Modules
+import board as B
+import ship as S
 
-def playBattleship(iBoard):
+def playBattleship():
+
     '''
-    Main function for doing the actual game
+    Function controlling the gameplay
     '''
-    ## Create instance of ship class
-    iShip = ship.Ship()
+    ## Create the board
+    main_board = B.Board(10)
+    main_board.display()
+    pc_board = B.Board(10)
 
-    ## Create the two boards used and display the players board
-    ## for reference
-    main_board = iBoard.get(10)
-    pc_board   = iBoard.get(10)
-    iBoard.display(main_board)
+    ## Get each of the ships and place them on the board
+    recon     = S.Ship(2, 'reconnaissance ship', pc_board)
+    destroyer = S.Ship(3, 'destroyer ship', pc_board)
+    submarine = S.Ship(3, 'submarine', pc_board)
+    battle    = S.Ship(4, 'battle ship', pc_board)
+    carrier   = S.Ship(5, 'carrer', pc_board)
 
-    ## Get each of the ships and place them on the pc board
-    recon_ship   = iShip.location(2, pc_board)
-    dest_ship    = iShip.location(3, pc_board)
-    submarine    = iShip.location(3, pc_board)
-    battle_ship  = iShip.location(4, pc_board)
-    carrier_ship = iShip.location(5, pc_board)
-   
-    ## Start the main game loop, looping until all the ships are sunk
+    ## Start the main game loop, playing until all the ships are sunk
     hit_count = 0
     recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
-    n_hits    = len(recon_ship) + len(dest_ship) + len(submarine) + len(battle_ship) + len(carrier_ship)
+    n_hits    = recon._length + destroyer._length + submarine._length + battle._length + carrier._length
     while hit_count < n_hits:
-        guess = [iBoard.convertX(raw_input("Guess Column: ")), iBoard.convertY(raw_input("Guess Row: "))]
-        if iBoard.legalGuess(guess, main_board):
-            if guess in recon_ship:
-                hit_count, recon_count = iShip.hit(guess, hit_count, main_board, 'reconnasance ship', 
-                                                   len(recon_ship), recon_count)
-            elif guess in dest_ship:
-                hit_count, dest_count  = iShip.hit(guess, hit_count, main_board, 'destroyer ship',
-                                                   len(dest_ship), dest_count)
-            elif guess in submarine:
-                hit_count, sub_count   = iShip.hit(guess, hit_count, main_board, 'submarine',
-                                                   len(submarine), sub_count)
-            elif guess in battle_ship:
-                hit_count, batt_count  = iShip.hit(guess, hit_count, main_board, 'battle ship',
-                                                   len(battle_ship), batt_count)
-            elif guess in carrier_ship:
-                hit_count, carr_count  = iShip.hit(guess, hit_count, main_board, 'carrier',
-                                                    len(carrier_ship), carr_count)
+        guess = [main_board.convertX(raw_input("Guess Column: ")), main_board.convertY(raw_input("Guess Row: "))]
+        if main_board.legalGuess(guess):
+            if guess in recon._location:
+                hit_count, recon_count = recon.hit(guess, hit_count, main_board, recon_count) 
+            elif guess in destroyer._location:
+                hit_count, dest_count  = destroyer.hit(guess, hit_count, main_board, dest_count)
+            elif guess in submarine._location:
+                hit_count, sub_count   = submarine.hit(guess, hit_count, main_board, sub_count)
+            elif guess in battle._location:
+                hit_count, batt_count  = battle.hit(guess, hit_count, main_board, batt_count)
+            elif guess in carrier._location:
+                hit_count, carr_count  = carrier.hit(guess, hit_count, main_board, carr_count)
             else:
                 print 'MISS!'
-                iBoard.place(guess, main_board, 'M')
+                main_board.fill(guess, 'M')
         else:
             continue
 
-        iBoard.display(main_board)
+        main_board.display()
     else:
         print 'Congratualtions! You sank the fleet'
 
 
 def playAgain(char):
-    yes = ['y', 'yes']
-    no  = ['n', 'no']
+
+    yes = ['yes', 'y']
+    no  = ['no',  'n']
     while char.lower() not in yes and char.lower() not in no:
         print "I'm sorry, that is not a vaild option."
         char = raw_input('Would you like to play again? (y/n) ')
@@ -73,20 +67,13 @@ def playAgain(char):
 
 
 def main():
-    iBoard = board.Board()
-    
-    play_game = True
+
+    play_game = True;
     while play_game == True:
-        ##
-        ## Play Battleship
-        ##
         start = time.time()
-        print "Let's play Battleship!"
-        playBattleship(iBoard)
-        end   = time.time() - start
-        ##
-        ## Print out the basic statistics
-        ##
+        print "Let's play battleship!"
+        playBattleship()
+        end = time.time() - start
         print "Well done! This game took %s minutes %s seconds" % (int(end / 60), int(end % 60))
         print "The average time per hit was: %s seconds" % (int(end / 17))
         play_game = playAgain(raw_input('Would you like to play again? (y/n) '))
