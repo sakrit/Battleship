@@ -45,11 +45,6 @@ class Board(object):
         return self.__board
 
 
-    def getLength(self):
-
-        return self._length
-
-    
     def getFillValue(self, i1, i2):
 
         return self.__board[i1][i2]
