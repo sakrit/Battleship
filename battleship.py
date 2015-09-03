@@ -24,8 +24,6 @@ def playBattleship():
     battle    = S.Ship(4, 'battle ship', pc_board)
     carrier   = S.Ship(5, 'carrier', pc_board)
     
-    pc_board.display()
-
     ## Start the main game loop, playing until all the ships are sunk
     hit_count = 0
     recon_count, dest_count, sub_count, batt_count, carr_count = 0, 0, 0, 0, 0
